@@ -1,14 +1,13 @@
 Deuces
 ========
 
-A pure Python poker hand evaluation library
+[Deuces](https://github.com/worldveil/deuces) library adopted for python 3
 
-    [ 2 ❤ ] , [ 2 ♠ ]
     
 ## Installation
 
 ```
-$ pip install deuces
+$ python setup.py install
 ```
 
 ## Implementation notes
@@ -24,14 +23,14 @@ http://willdrevo.com/ (haven't posted yet)
 
 ## Usage
 
-Deuces is easy to set up and use. 
+Deuces is easy to set up and use.
 
 ```python
->>> from deuces import Card
+>>> from deuces.card import *
 >>> card = Card.new('Qh')
 ```
 
-Card objects are represented as integers to keep Deuces performant and lightweight. 
+Card objects are represented as integers to keep Deuces performant and lightweight.
 
 Now let's create the board and an example Texas Hold'em hand:
 
@@ -47,16 +46,9 @@ Now let's create the board and an example Texas Hold'em hand:
 >>> ]
 ```
 
-Pretty print card integers to the terminal: 
-
-    >>> Card.print_pretty_cards(board + hand)
-      [ A ❤ ] , [ K ♦ ] , [ J ♣ ] , [ Q ♠ ] , [ T ❤ ] 
-
-If you have [`termacolor`](http://pypi.python.org/pypi/termcolor) installed, they will be colored as well. 
-
 Otherwise move straight to evaluating your hand strength:
 ```python
->>> from deuces import Evaluator
+>>> from deuces.evaluator import *
 >>> evaluator = Evaluator()
 >>> print evaluator.evaluate(board, hand)
 1600
@@ -66,20 +58,12 @@ Hand strength is valued on a scale of 1 to 7462, where 1 is a Royal Flush and 74
 
 If you want to deal out cards randomly from a deck, you can also do that with Deuces:
 ```python
->>> from deuces import Deck
+>>> from deuces.deck import *
 >>> deck = Deck()
 >>> board = deck.draw(5)
 >>> player1_hand = deck.draw(2)
 >>> player2_hand = deck.draw(2)
 ```
-and print them:
-
-    >>> Card.print_pretty_cards(board)
-      [ 4 ♣ ] , [ A ♠ ] , [ 5 ♦ ] , [ K ♣ ] , [ 2 ♠ ]
-    >>> Card.print_pretty_cards(player1_hand)
-      [ 6 ♣ ] , [ 7 ❤ ] 
-    >>> Card.print_pretty_cards(player2_hand)
-      [ A ♣ ] , [ 3 ❤ ] 
 
 Let's evaluate both hands strength, and then bin them into classes, one for each hand type (High Card, Pair, etc)
 ```python
@@ -88,6 +72,7 @@ Let's evaluate both hands strength, and then bin them into classes, one for each
 >>> p1_class = evaluator.get_rank_class(p1_score)
 >>> p2_class = evaluator.get_rank_class(p2_score)
 ```
+
 or get a human-friendly string to describe the score,
 
     >>> print "Player 1 hand rank = %d (%s)\n" % (p1_score, evaluator.class_to_string(p1_class))
@@ -119,6 +104,8 @@ or, coolest of all, get a blow-by-blow analysis of the stages of the game with r
     Player 2 is the winner with a Straight
 
 And that's Deuces, yo. 
+
+Details in ./example.py
 
 ## Performance
 
